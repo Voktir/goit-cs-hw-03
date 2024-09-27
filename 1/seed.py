@@ -8,7 +8,7 @@ def seed_db(cur, conn):
 
 
     # Заповнюємо таблиці випадковими значеннями
-
+    cur.execute("TRUNCATE TABLE status RESTART IDENTITY CASCADE;")
     statuses = ["new", "in progress", "completed"]
     for status in statuses:
         cur.execute(
@@ -16,6 +16,7 @@ def seed_db(cur, conn):
             (status,),
         )
 
+    cur.execute("TRUNCATE TABLE users RESTART IDENTITY CASCADE;")
     for _ in range(10):
         fullname = fake.name()
         email = fake.unique.email()
@@ -30,6 +31,7 @@ def seed_db(cur, conn):
     cur.execute("SELECT id FROM status;")
     status_ids = [row[0] for row in cur.fetchall()]
 
+    cur.execute("TRUNCATE TABLE tasks RESTART IDENTITY CASCADE;")
     for _ in range(30):
         title = fake.sentence(nb_words=6)
         description = fake.text()
@@ -45,7 +47,6 @@ def seed_db(cur, conn):
 
     # Закриваємо курсор та з'єднання
     cur.close()
-    conn.close()
 
     print("Database seeded successfully.")
 

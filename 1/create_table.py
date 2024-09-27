@@ -16,7 +16,6 @@ def create_db(cur, conn):
 
     # Закриваємо з'єднання
     cur.close()
-    conn.close()
 
     print("Tables created successfully.")
 
